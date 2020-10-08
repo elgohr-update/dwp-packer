@@ -1,31 +1,31 @@
 jobs:
-  - name: dataworks-repo-template-docker-pr
+  - name: packer-pr
     plan:
-      - get: dataworks-repo-template-docker-pr
+      - get: packer-pr
         trigger: true
         version: every
-      - put: dataworks-repo-template-docker-pr
+      - put: packer-pr
         params:
-          path: dataworks-repo-template-docker-pr
+          path: packer-pr
           status: pending
         input_mapping:
-          dataworks-repo-template-docker: dataworks-repo-template-docker-pr
+          packer: packer-pr
       - .: (( inject meta.plan.terraform-bootstrap ))
         input_mapping:
-          dataworks-repo-template-docker: dataworks-repo-template-docker-pr
+          packer: packer-pr
       - .: (( inject meta.plan.terraform-plan ))
         input_mapping:
-          dataworks-repo-template-docker: dataworks-repo-template-docker-pr
+          packer: packer-pr
         params:
           TF_WORKSPACE: "management-dev"
           DETAILED_EXITCODE: ""
         on_failure:
-          put: dataworks-repo-template-docker-pr
+          put: packer-pr
           params:
-            path: dataworks-repo-template-docker-pr
+            path: packer-pr
             status: failure
         on_success:
-          put: dataworks-repo-template-docker-pr
+          put: packer-pr
           params:
-            path: dataworks-repo-template-docker-pr
+            path: packer-pr
             status: success
