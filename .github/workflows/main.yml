@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - 'docs/**'
-      - '*.md'
+    paths-include:
+      - "Dockerfile"
 
 env:
   IMAGE_NAME: dwpdigital/packer
